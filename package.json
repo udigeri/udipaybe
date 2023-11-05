@@ -1,0 +1,22 @@
+{
+  "name": "udipaybe",
+  "version": "1.0.0",
+  "description": "UdiPay PSP",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "udipay",
+    "psp"
+  ],
+  "author": "Udi",
+  "license": "MIT",
+  "dependencies": {
+    "mongoose": "^7.0.0",
+    "mongoose-unique-validator": "^4.0.0",
+    "nodemon": "^3.0.1"
+  }
+}

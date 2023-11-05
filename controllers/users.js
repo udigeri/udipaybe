@@ -19,4 +19,17 @@ usersRouter.get("/", async (request, response) => {
   response.json(users);
 });
 
+usersRouter.get("/:id", async (request, response, next) => {
+  try {
+    const user = await User.findById(request.params.id);
+    if (!user) {
+      response.status(404).end();
+    } else {
+      response.json(user);
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = usersRouter;

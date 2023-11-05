@@ -30,4 +30,18 @@ describe("when there in initially one user in db", () => {
     const userAtStart = await helper.usersInDb();
     expect(userAtStart).toHaveLength(1);
   });
+
+  test("fails with statuscode 404 if user non exist", async () => {
+    const validNonExistingId = "6547e54fe3d743a7fba7769f";
+    await api.get(`/api/users/${validNonExistingId}`).expect(404);
+  });
+
+  test("fails with statuscode 400 if user id is invalid", async () => {
+    const invalidId = "16547e54fe3d743a7fba7769f";
+    await api.get(`/api/users/${invalidId}`).expect(400);
+  });
+
+  afterAll(async () => {
+    await mongoose.connection.close();
+  });
 });

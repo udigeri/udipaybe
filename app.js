@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const morgan = require("morgan");
+const middleware = require("./utils/middleware");
 const usersRouter = require("./controllers/users");
 
 morgan.token("body", function (req, res) {
@@ -21,5 +22,8 @@ app.get("/", async (request, response) => {
 });
 
 app.use("/api/users", usersRouter);
+
+app.use(middleware.unknownEndpoint);
+app.use(middleware.errorHandler);
 
 module.exports = app;

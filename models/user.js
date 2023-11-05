@@ -7,14 +7,14 @@ const userSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
-  password: String,
+  passwordHash: String,
   admin: Boolean,
   name: String,
   createdAt: {
     type: Date,
     default: Date.now(),
   },
-  changedAt: {
+  updatedAt: {
     type: Date,
     default: Date.now(),
   },
@@ -29,6 +29,8 @@ userSchema.set("toJSON", {
     delete returnedObject.__v;
     // the passwordHash should not be revealed
     delete returnedObject.passwordHash;
+    delete returnedObject.createdAt;
+    delete returnedObject.updatedAt;
   },
 });
 

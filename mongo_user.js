@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const uniqueValidator = require("mongoose-unique-validator");
 const User = require("./models/user");
+const bcrypt = require("bcrypt");
 
 if (process.argv.length < 3) {
   console.log("Missing password as argument");
@@ -22,17 +23,24 @@ User.deleteMany({ admin: { $in: [0, 1] } })
     console.log(err);
   });
 
-const user = new User({
-  email: "root@udipay.com",
-  password: "admin",
-  admin: true,
-  name: "Super Admin",
-});
+const createUser = async () => {
+  const passwordHash = await bcrypt.hash("admin", 10);
 
-user.save().then((result) => {
-  console.log("Init user saved!");
-  mongoose.connection.close();
-});
+  const user = new User({
+    email: "root@udipay.com",
+    passwordHash: passwordHash,
+    admin: true,
+    name: "Super Admin",
+  });
+
+  user.save().then((result) => {
+    console.log("Init user saved!");
+    mongoose.connection.close();
+  });
+};
+
+createUser();
+
 
 // User.find({ admin: { $in: [0, 1] } }).then((result) => {
 //   console.log(result.length);

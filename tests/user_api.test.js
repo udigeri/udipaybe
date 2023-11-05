@@ -16,7 +16,7 @@ describe("when there in initially one user in db", () => {
 
     const user = new User({
       email: "root@udipay.com",
-      password: passwordHash,
+      passwordHash: passwordHash,
       admin: true,
       name: "Super Admin",
       createdAt: Date.now(),

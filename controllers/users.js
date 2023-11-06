@@ -32,4 +32,17 @@ usersRouter.get("/:id", async (request, response, next) => {
   }
 });
 
+usersRouter.delete("/:id", async (request, response, next) => {
+  try {
+    const user = await User.findByIdAndDelete(request.params.id);
+    if (!user) {
+      response.status(404).end();
+    } else {
+      response.status(204).end();
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = usersRouter;

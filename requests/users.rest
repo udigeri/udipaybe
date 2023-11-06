@@ -5,4 +5,7 @@ GET http://localhost:3001/ HTTP/1.1
 GET http://localhost:3001/api/users HTTP/1.1
 
 ### 
-GET http://localhost:3001/api/users/6547e54fe3d743a7fba7769f HTTP/1.1
+GET http://localhost:3001/api/users/6548a76d7d78db32cc68a795 HTTP/1.1
+
+###
+DELETE http://localhost:3001/api/users/6548a3baf24369750f86c06a HTTP/1.1

@@ -5,7 +5,17 @@ GET http://localhost:3001/ HTTP/1.1
 GET http://localhost:3001/api/users HTTP/1.1
 
 ### 
-GET http://localhost:3001/api/users/6548a76d7d78db32cc68a795 HTTP/1.1
+GET http://localhost:3001/api/users/654956eccd5b9d8a26177547 HTTP/1.1
 
 ###
-DELETE http://localhost:3001/api/users/6548a3baf24369750f86c06a HTTP/1.1
+PUT http://localhost:3001/api/users/654956eccd5b9d8a26177547 HTTP/1.1
+content-type: application/json
+
+{
+    "email": "root@udipay.com", 
+    "admin": true,
+    "name": "Super Admin"
+}
+
+###
+DELETE http://localhost:3001/api/users/654956eccd5b9d8a26177547 HTTP/1.1

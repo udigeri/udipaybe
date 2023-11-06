@@ -45,4 +45,30 @@ usersRouter.delete("/:id", async (request, response, next) => {
   }
 });
 
+usersRouter.put("/:id", async (request, response, next) => {
+  const body = request.body;
+
+  const user = {
+    email: body.email,
+    admin: body.admin || false,
+    name: body.name,
+    updatedAt: Date.now(),
+  };
+
+  try {
+    const updatedUser = await User.findByIdAndUpdate(request.params.id, user, {
+      new: true,
+      runValidators: true,
+      context: "query",
+    });
+    if (!updatedUser) {
+      response.status(404).end();
+    } else {
+      response.json(updatedUser);
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = usersRouter;

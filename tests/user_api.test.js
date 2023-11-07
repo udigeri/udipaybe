@@ -72,6 +72,20 @@ describe("when there in initially one user in db", () => {
     await api.delete(`/api/users/${invalidId}`).expect(400);
   });
 
+  test.only("update succeeds with statuscode 200 if user is valid", async () => {
+    const usersAtStart = await helper.usersInDb();
+    const userToBeUpdated = usersAtStart[0];
+    userToBeUpdated.email = "root@udipaybetest.com";
+
+    const res = await api
+      .put(`/api/users/${userToBeUpdated.id}`)
+      .send(userToBeUpdated)
+      .expect(200);
+
+    const userAtEnd = res.body;
+    expect(userAtEnd.email).toBe(userToBeUpdated.email);
+  });
+
   afterAll(async () => {
     await mongoose.connection.close();
   });

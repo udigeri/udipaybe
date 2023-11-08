@@ -56,11 +56,19 @@ usersRouter.put("/:id", async (request, response, next) => {
   };
 
   try {
-    const updatedUser = await User.findByIdAndUpdate(request.params.id, user, {
-      new: true,
-      runValidators: true,
-      context: "query",
-    });
+    const userDummy = await User.findById(request.params.id);
+    if (!userDummy) {
+      return response.status(404).end();
+    } 
+    const updatedUser = await User.findByIdAndUpdate(
+      request.params.id,
+      user,
+      {
+        new: true,
+        runValidators: true,
+        context: "query",
+      }
+    );
     if (!updatedUser) {
       response.status(404).end();
     } else {

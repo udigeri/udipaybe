@@ -72,10 +72,11 @@ describe("when there in initially one user in db", () => {
     await api.delete(`/api/users/${invalidId}`).expect(400);
   });
 
-  test.only("update succeeds with statuscode 200 if user is valid", async () => {
+  test("update succeeds with statuscode 200 if user is valid", async () => {
     const usersAtStart = await helper.usersInDb();
     const userToBeUpdated = usersAtStart[0];
     userToBeUpdated.email = "root@udipaybetest.com";
+    userToBeUpdated.admin = false;
 
     const res = await api
       .put(`/api/users/${userToBeUpdated.id}`)
@@ -84,6 +85,23 @@ describe("when there in initially one user in db", () => {
 
     const userAtEnd = res.body;
     expect(userAtEnd.email).toBe(userToBeUpdated.email);
+    expect(userAtEnd.admin).toBe(userToBeUpdated.admin);
+  });
+
+  test("update fails with statuscode 404 if user non exist", async () => {
+    const usersAtStart = await helper.usersInDb();
+    const userToBeUpdated = usersAtStart[0];
+    userToBeUpdated.admin = false;
+
+    const res = await api
+      .put(`/api/users/6547e54fe3d743a7fba7769f`)
+      .send(userToBeUpdated)
+      .expect(404);
+  });
+
+  test("update fails with statuscode 400 if user id is invalid", async () => {
+    const invalidId = "16547e54fe3d743a7fba7769f";
+    await api.put(`/api/users/${invalidId}`).expect(400);
   });
 
   afterAll(async () => {

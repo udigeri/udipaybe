@@ -5,6 +5,17 @@ GET http://localhost:3001/ HTTP/1.1
 GET http://localhost:3001/api/users HTTP/1.1
 
 ### 
+POST http://localhost:3001/api/users HTTP/1.1
+content-type: application/json
+
+{
+    "email": "user@udipaybe.com", 
+    "password": "user",
+    "admin": true,
+    "name": "Super Admin"
+}
+
+###
 GET http://localhost:3001/api/users/654956eccd5b9d8a26177547 HTTP/1.1
 
 ###
@@ -12,10 +23,10 @@ PUT http://localhost:3001/api/users/654956eccd5b9d8a26177547 HTTP/1.1
 content-type: application/json
 
 {
-    "email": "root@udipay.com", 
+    "email": "root@udipaybe.com", 
     "admin": true,
     "name": "Super Admin"
 }
 
 ###
-DELETE http://localhost:3001/api/users/654956eccd5b9d8a26177547 HTTP/1.1
+DELETE http://localhost:3001/api/users/654bf739fe068638ff249128 HTTP/1.1

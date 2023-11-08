@@ -43,6 +43,65 @@ describe("when there in initially one user in db", () => {
     await api.get(`/api/users/${invalidId}`).expect(400);
   });
 
+  test("create succeeds with statuscode 201 if user is valid", async () => {
+    const usersAtStart = await helper.usersInDb();
+
+    const newUser = {
+      email: "user@udipay.com",
+      password: "user",
+      name: "User User",
+    };
+
+    await api
+      .post("/api/users")
+      .send(newUser)
+      .expect(201)
+      .expect("Content-Type", /application\/json/);
+
+    const usersAtEnd = await helper.usersInDb();
+    expect(usersAtEnd).toHaveLength(usersAtStart.length + 1);
+
+    const emails = usersAtEnd.map((u) => u.email);
+    expect(emails).toContain(newUser.email);
+  });
+
+  test("create fails with statuscode 400 if user email not unique", async () => {
+    const usersAtStart = await helper.usersInDb();
+
+    const newUser = {
+      email: usersAtStart[0].email,
+      password: "user",
+      name: "User User",
+    };
+
+    await api
+      .post("/api/users")
+      .send(newUser)
+      .expect(400)
+      .expect("Content-Type", /application\/json/);
+
+    const usersAtEnd = await helper.usersInDb();
+    expect(usersAtEnd).toHaveLength(usersAtStart.length);
+  });
+
+  test("create fails with statuscode 400 if missing required field", async () => {
+    const usersAtStart = await helper.usersInDb();
+
+    const newUser = {
+      email: "user@udipay.com",
+      password: "user",
+    };
+
+    await api
+      .post("/api/users")
+      .send(newUser)
+      .expect(400)
+      .expect("Content-Type", /application\/json/);
+
+    const usersAtEnd = await helper.usersInDb();
+    expect(usersAtEnd).toHaveLength(usersAtStart.length);
+  });
+
   test("delete succeeds with statuscode 204 if user is valid", async () => {
     const usersAtStart = await helper.usersInDb();
     const userToBeDeleted = usersAtStart[0];

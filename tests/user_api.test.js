@@ -8,6 +8,13 @@ const api = supertest(app);
 const bcrypt = require("bcrypt");
 const User = require("../models/user");
 
+test.only("fails with statuscode 404 for unknown endpoint", async () => {
+  await api
+    .get(`/api/user`)
+    .expect(404)
+    .expect("Content-Type", /application\/json/);
+});
+
 describe("when there in initially one user in db", () => {
   beforeEach(async () => {
     await User.deleteMany({});
@@ -117,7 +124,9 @@ describe("when there in initially one user in db", () => {
   test("delete fails with statuscode 404 if user non exist", async () => {
     const usersAtStart = await helper.usersInDb();
     const userToBeDeleted = usersAtStart[0];
-    await api.delete(`/api/users/6547e54fe3d743a7fba7769f`).expect(404);
+    await api
+      .delete(`/api/users/6547e54fe3d743a7fba7769f`)
+      .expect(404);
 
     const usersAtEnd = await helper.usersInDb();
     expect(usersAtEnd).toHaveLength(usersAtStart.length);
